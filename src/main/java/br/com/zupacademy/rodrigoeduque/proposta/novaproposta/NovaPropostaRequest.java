@@ -1,6 +1,7 @@
 package br.com.zupacademy.rodrigoeduque.proposta.novaproposta;
 
 import br.com.zupacademy.rodrigoeduque.proposta.configs.anotacoespersonalizadas.cpfoucnpj.CpfOuCnpj;
+import br.com.zupacademy.rodrigoeduque.proposta.configs.anotacoespersonalizadas.valorunico.ValorUnico;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ public class NovaPropostaRequest {
 
     @NotBlank
     @CpfOuCnpj
+    @ValorUnico(classe = Proposta.class, atributo = "documento")
     private String documento;
 
     @NotBlank
