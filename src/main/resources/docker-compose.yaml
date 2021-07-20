@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   zookeeper:
     image: "confluentinc/cp-zookeeper:5.2.1"
     environment:
@@ -138,3 +137,4 @@ volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  mysql-volume:
