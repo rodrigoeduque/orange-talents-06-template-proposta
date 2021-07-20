@@ -1,5 +1,7 @@
 package br.com.zupacademy.rodrigoeduque.proposta.novaproposta;
 
+import br.com.zupacademy.rodrigoeduque.proposta.analisedeproposta.RetornoAnaliseRequest;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +15,7 @@ public class Proposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @Column(unique = true)
     private String documento;
     @NotNull
     private String email;
@@ -24,6 +27,9 @@ public class Proposta {
     @NotNull
     private BigDecimal salario;
 
+    @Enumerated(EnumType.STRING)
+    private StatusProposta statusProposta;
+
     public Proposta(@NotBlank String documento,
                     @NotBlank @Email String email,
                     @NotBlank String nome,
@@ -34,21 +40,26 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+        this.statusProposta = StatusProposta.EM_PROCESSAMENTO;
     }
 
     public Long getId() {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Proposta{" +
-                "id=" + id +
-                ", documento='" + documento + '\'' +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", salario=" + salario +
-                '}';
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setStatusProposta(StatusProposta statusProposta) {
+        this.statusProposta = statusProposta;
+    }
+
+    public void atualizaStatusProposta(RetornoAnaliseRequest retorno) {
+        this.statusProposta = retorno.getResultadoSolicitacao().verificaPropostaElegibilidade();
     }
 }
