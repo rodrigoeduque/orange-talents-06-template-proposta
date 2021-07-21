@@ -1,6 +1,7 @@
 package br.com.zupacademy.rodrigoeduque.proposta.novaproposta;
 
 import br.com.zupacademy.rodrigoeduque.proposta.analisedeproposta.RetornoAnaliseRequest;
+import br.com.zupacademy.rodrigoeduque.proposta.associarcartao.NumeroDoCartaoRequest;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -30,6 +31,12 @@ public class Proposta {
     @Enumerated(EnumType.STRING)
     private StatusProposta statusProposta;
 
+    private String numeroCartao;
+
+    @Deprecated
+    public Proposta() {
+    }
+
     public Proposta(@NotBlank String documento,
                     @NotBlank @Email String email,
                     @NotBlank String nome,
@@ -55,11 +62,33 @@ public class Proposta {
         return nome;
     }
 
+    public StatusProposta getStatusProposta() {
+        return statusProposta;
+    }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
     public void setStatusProposta(StatusProposta statusProposta) {
         this.statusProposta = statusProposta;
     }
 
     public void atualizaStatusProposta(RetornoAnaliseRequest retorno) {
         this.statusProposta = retorno.getResultadoSolicitacao().verificaPropostaElegibilidade();
+    }
+
+    public void atualizaCartaoRecebido(NumeroDoCartaoRequest numero){
+        this.numeroCartao = numero.getId();
+    }
+
+    @Override
+    public String toString() {
+        return "Proposta{" +
+                "id=" + id +
+                ", documento='" + documento + '\'' +
+                ", nome='" + nome + '\'' +
+                ", statusProposta=" + statusProposta +
+                '}';
     }
 }

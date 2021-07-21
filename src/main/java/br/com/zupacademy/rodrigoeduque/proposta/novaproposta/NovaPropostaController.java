@@ -39,6 +39,7 @@ public class NovaPropostaController {
             novaProposta.setStatusProposta(StatusProposta.ELEGIVEL);
         } catch (FeignException e) {
             novaProposta.setStatusProposta(StatusProposta.NAO_ELEGIVEL);
+            return ResponseEntity.status(e.status()).body("Cliente Não Elegivel");
         }
         URI urlEnderecoNovaProposta = componentsBuilder.path("/propostas/{id}").build(novaProposta.getId());
         return ResponseEntity.created(urlEnderecoNovaProposta).build();
