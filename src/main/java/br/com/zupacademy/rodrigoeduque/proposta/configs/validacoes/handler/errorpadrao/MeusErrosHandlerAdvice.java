@@ -4,9 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +40,15 @@ public class MeusErrosHandlerAdvice {
 
         ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
         return ResponseEntity.status(apiErroException.getHttpStatus()).body(erroPadronizado);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErroPadronizado> handleApiErroException(ResponseStatusException apiErroException) {
+        Collection<String> mensagens = new ArrayList<>();
+        mensagens.add(apiErroException.getMessage());
+
+        ErroPadronizado erroPadronizado = new ErroPadronizado(mensagens);
+        return ResponseEntity.status(apiErroException.getStatus()).body(erroPadronizado);
     }
 
 }
