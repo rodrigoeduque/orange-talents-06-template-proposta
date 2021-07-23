@@ -1,25 +1,40 @@
 version: '3'
 services:
+  docker-app:
+    build:
+        dockerfile: ./Dockerfile
+        context: .
+    ports:
+      - "8180:8180"
+    restart: always
+    container_name: proposta
+    image: rodrigoeduque/proposta-api
+    depends_on:
+      - db
+    environment:
+      - spring.profiles.active=prod
+      - PROPOSTAS_DATABASE_URL=jdbc:mysql://db_proposta:3306/ml?&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      - PROPOSTAS_DATABASE_USERNAME=root
+      - PROPOSTAS_DATABASE_PASSWORD=123456
+      - ANALISE_FINANCEIRA_URL=http://localhost:9999
+      - CARTAO_URL=http://localhost:8888
+  db:
+    image: mysql
+    ports:
+      - 3308:3306
+    restart:  always
+    container_name: db_proposta
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: ml
+    volumes:
+      - mysql-volume:/var/lib/mysql
   zookeeper:
     image: "confluentinc/cp-zookeeper:5.2.1"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_SYNC_LIMIT: 2
-  docker-app:
-    image: rodrigoeduque/proposta-api
-    ports:
-      - "8180:8180"
-    network_mode: bridge
-    depends_on:
-      - db-mysql
-  db-mysql:
-    image: mysql:latest
-    ports:
-      - 3306:3306
-    network_mode: bridge
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456
   kafka:
     image: "confluentinc/cp-kafka:5.2.1"
     ports:
