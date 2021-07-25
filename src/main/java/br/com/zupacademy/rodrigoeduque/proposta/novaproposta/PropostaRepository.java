@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Set;
 
 public interface PropostaRepository extends JpaRepository<Proposta, Long> {
+
+    Proposta findBynumeroCartao(String numeroCartao);
 }

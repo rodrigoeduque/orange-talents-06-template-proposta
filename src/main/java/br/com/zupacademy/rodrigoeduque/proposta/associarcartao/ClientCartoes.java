@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "solicitaCartao", url = "${cartao.url}")
 public interface ClientCartoes {
 
-    @RequestMapping(method = RequestMethod.GET, value = "cartoes" )
-    NumeroDoCartaoRequest solicitarNumeroCartao(@RequestParam Long idProposta);
+    @RequestMapping(method = RequestMethod.GET, value = "/api/cartoes" )
+    NumeroDoCartaoRequest solicitarNumeroCartao(@PathVariable Long idProposta);
 }

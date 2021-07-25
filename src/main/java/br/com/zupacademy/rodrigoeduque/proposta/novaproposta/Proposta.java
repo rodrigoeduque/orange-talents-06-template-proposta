@@ -2,6 +2,7 @@ package br.com.zupacademy.rodrigoeduque.proposta.novaproposta;
 
 import br.com.zupacademy.rodrigoeduque.proposta.analisedeproposta.RetornoAnaliseRequest;
 import br.com.zupacademy.rodrigoeduque.proposta.associarcartao.NumeroDoCartaoRequest;
+import br.com.zupacademy.rodrigoeduque.proposta.cadastrobiometria.Biometria;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -9,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Proposta {
@@ -32,6 +35,9 @@ public class Proposta {
     private StatusProposta statusProposta;
 
     private String numeroCartao;
+
+    @OneToMany(mappedBy = "cartaoDono" , cascade = CascadeType.MERGE)
+    private Set<Biometria> biometrias = new HashSet<>();
 
     @Deprecated
     public Proposta() {
@@ -80,6 +86,10 @@ public class Proposta {
 
     public void atualizaCartaoRecebido(NumeroDoCartaoRequest numero){
         this.numeroCartao = numero.getId();
+    }
+
+    public void adicionaNovaBiometria(Biometria biometria){
+        this.biometrias.add(biometria);
     }
 
     @Override
