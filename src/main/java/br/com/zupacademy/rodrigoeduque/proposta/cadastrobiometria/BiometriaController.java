@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 public class BiometriaController {
@@ -16,6 +17,7 @@ public class BiometriaController {
     Logger logger = LoggerFactory.getLogger(BiometriaController.class);
 
     private PropostaRepository propostaRepository;
+
 
     @Autowired
     public BiometriaController(PropostaRepository propostaRepository) {
@@ -25,14 +27,14 @@ public class BiometriaController {
     @PostMapping("/biometrias")
     public ResponseEntity<?> criarBiometria(@RequestBody @Valid BiometriaRequest request, @RequestParam String numeroCartao){
 
-        Proposta retornaNumeroCartao = propostaRepository.findBynumeroCartao(numeroCartao);
+        Optional<Proposta> retornaNumeroCartao = propostaRepository.findBynumeroCartao(numeroCartao);
 
-        if (retornaNumeroCartao != null) {
+        if (retornaNumeroCartao.isPresent()) {
             Biometria novaBiometria = request.toModel();
 
-            Proposta proposta = retornaNumeroCartao;
+            Proposta proposta = retornaNumeroCartao.get();
             proposta.adicionaNovaBiometria(novaBiometria);
-            novaBiometria.setCartaoDono(retornaNumeroCartao);
+            novaBiometria.setCartaoDono(retornaNumeroCartao.get());
             propostaRepository.save(proposta);
 
             return ResponseEntity.ok().build();
