@@ -26,7 +26,7 @@ public class CartaoBloqueio {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private StatusCartao status;
+    private StatusCartao status = StatusCartao.LIBERADO;
 
     @Deprecated
     public CartaoBloqueio() {
@@ -37,7 +37,14 @@ public class CartaoBloqueio {
         this.instanteBloqueio = LocalDateTime.now();
         this.IpClientBloqueio = ipClientBloqueio;
         this.userAgentBloqueio = userAgentBloqueio;
-        this.status = StatusCartao.BLOQUEADO;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setStatus(StatusCartao status) {
+        this.status = status;
     }
 
     @Override
