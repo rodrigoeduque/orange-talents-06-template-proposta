@@ -56,8 +56,7 @@ public class BloquearCartaoController {
             cartaoBloqueioRepository.save(cartaoBloqueado);
             cartaoBloqueado.setStatus(StatusCartao.BLOQUEADO);
             return ResponseEntity.status(HttpStatus.CREATED).header("resultado").build();
-        }
-        catch (FeignException exception){
+        } catch (FeignException exception) {
             return ResponseEntity.status(exception.status()).body(exception.getMessage());
         }
 

@@ -21,6 +21,22 @@ public class AvisoViagemRequest {
 
         return new AvisoViagem(destino, dataFinal, idCartao, hostName, userAgent);
     }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public LocalDate getDataFinal() {
+        return dataFinal;
+    }
+
+    public void setDataFinal(LocalDate dataFinal) {
+        this.dataFinal = dataFinal;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
 }
 
 

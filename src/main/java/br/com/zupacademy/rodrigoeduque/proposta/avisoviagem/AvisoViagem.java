@@ -1,14 +1,9 @@
 package br.com.zupacademy.rodrigoeduque.proposta.avisoviagem;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 public class AvisoViagem {
@@ -18,13 +13,16 @@ public class AvisoViagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private final String idCartao;
+    private String idCartao;
     @NotNull
     private String destino;
-    @NotNull @Future
-    private final LocalDate dataFinal;
-    private final String hostName;
-    private final String userAgent;
+    @NotNull
+    @Future
+    private LocalDate dataFinal;
+    private String hostName;
+    private String userAgent;
+    @Enumerated(EnumType.STRING)
+    private StatusResultadoAvisoViagem status;
 
     public AvisoViagem(String destino,
                        LocalDate dataFinal,
@@ -37,5 +35,9 @@ public class AvisoViagem {
         this.idCartao = idCartao;
         this.hostName = hostName;
         this.userAgent = userAgent;
+    }
+
+    public void atualizaStatus() {
+        this.status = StatusResultadoAvisoViagem.CRIADO;
     }
 }
