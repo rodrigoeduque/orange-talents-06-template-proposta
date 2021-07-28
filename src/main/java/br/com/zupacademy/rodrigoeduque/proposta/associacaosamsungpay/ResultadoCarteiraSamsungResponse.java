@@ -1,11 +1,11 @@
-package br.com.zupacademy.rodrigoeduque.proposta.associacaopaypal;
+package br.com.zupacademy.rodrigoeduque.proposta.associacaosamsungpay;
 
-public class ResultadoCarteiraResponse {
+public class ResultadoCarteiraSamsungResponse {
 
     private String resultado;
     private String id;
 
-    public ResultadoCarteiraResponse(String resultado, String id) {
+    public ResultadoCarteiraSamsungResponse(String resultado, String id) {
         this.resultado = resultado;
         this.id = id;
     }

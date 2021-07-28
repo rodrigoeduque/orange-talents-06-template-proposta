@@ -1,19 +1,16 @@
-package br.com.zupacademy.rodrigoeduque.proposta.associacaopaypal;
-
-import br.com.zupacademy.rodrigoeduque.proposta.configs.anotacoespersonalizadas.valorunico.ValorUnico;
+package br.com.zupacademy.rodrigoeduque.proposta.associacaosamsungpay;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class SolicitacaoInclusaoCarteiraRequest {
+public class SolicitacaoInclusaoCarteiraSamsungRequest {
 
     @NotBlank
     @Email
     private String email;
-    @ValorUnico(classe = CarteiraPaypal.class,atributo = "id_cartao",message = "Cartão já vinculado a uma carteira Paypal")
     private String carteira;
 
-    public SolicitacaoInclusaoCarteiraRequest(String email, String carteira) {
+    public SolicitacaoInclusaoCarteiraSamsungRequest(String email, String carteira) {
         this.email = email;
         this.carteira = carteira;
     }
@@ -26,7 +23,7 @@ public class SolicitacaoInclusaoCarteiraRequest {
         return carteira;
     }
 
-    public CarteiraPaypal toModel(String idCartao, String email, ResultadoCarteiraResponse resultadoCarteiraResponse) {
-        return new CarteiraPaypal(email,idCartao,resultadoCarteiraResponse.getResultado(),resultadoCarteiraResponse.getId());
+    public CarteiraSamsungPay toModel(String idCartao, String email, ResultadoCarteiraSamsungResponse resultadoCarteiraSamsungResponse) {
+        return new CarteiraSamsungPay(idCartao, email, resultadoCarteiraSamsungResponse.getId(), resultadoCarteiraSamsungResponse.getResultado());
     }
 }
