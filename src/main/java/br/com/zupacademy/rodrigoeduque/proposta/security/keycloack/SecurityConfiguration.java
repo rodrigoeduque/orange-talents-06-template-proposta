@@ -13,11 +13,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
-        .antMatchers(HttpMethod.GET,"/propostas/**").hasAuthority("SCOPE_escopo-app-proposta")
-        .antMatchers(HttpMethod.POST,"/propostas/**").hasAuthority("SCOPE_escopo-app-proposta")
-        .antMatchers(HttpMethod.GET,"/cartoes/**").hasAuthority("SCOPE_escopo-app-proposta")
-        .antMatchers(HttpMethod.POST,"/cartoes/**").hasAuthority("SCOPE_escopo-app-proposta")
-        .anyRequest().authenticated()
+                        .antMatchers(HttpMethod.GET, "/propostas/**").hasAuthority("SCOPE_escopo-app-proposta")
+                        .antMatchers(HttpMethod.POST, "/propostas/**").hasAuthority("SCOPE_escopo-app-proposta")
+                        .antMatchers(HttpMethod.GET, "/cartoes/**").hasAuthority("SCOPE_escopo-app-proposta")
+                        .antMatchers(HttpMethod.POST, "/cartoes/**").hasAuthority("SCOPE_escopo-app-proposta")
+                        .antMatchers(HttpMethod.GET, "/actuator/prometheus/**").permitAll()
+                        .anyRequest().authenticated()
         )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
