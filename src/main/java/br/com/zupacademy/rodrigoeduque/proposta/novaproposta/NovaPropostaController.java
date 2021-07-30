@@ -3,10 +3,12 @@ package br.com.zupacademy.rodrigoeduque.proposta.novaproposta;
 import br.com.zupacademy.rodrigoeduque.proposta.analisedeproposta.AnaliseDePropostaRequest;
 import br.com.zupacademy.rodrigoeduque.proposta.analisedeproposta.ClientAnaliseResource;
 import br.com.zupacademy.rodrigoeduque.proposta.analisedeproposta.RetornoAnaliseRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import feign.FeignException;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,12 @@ import java.net.URI;
 
 @RestController
 public class NovaPropostaController {
+
+    @Value("${password}")
+    private String passwordCrypt;
+    @Value("${key}")
+    private String keyCrypt;
+
 
     private PropostaRepository propostaRepository;
     private ClientAnaliseResource clientAnaliseResource;
@@ -36,7 +44,7 @@ public class NovaPropostaController {
     public ResponseEntity<?> criarNovaProposta(@RequestBody @Valid NovaPropostaRequest request, UriComponentsBuilder componentsBuilder) {
         Span activeSpan = tracer.activeSpan();
 
-        Proposta proposta = request.toModel();
+        Proposta proposta = request.toModel(passwordCrypt,keyCrypt);
         Proposta novaProposta = propostaRepository.save(proposta);
 
         try {

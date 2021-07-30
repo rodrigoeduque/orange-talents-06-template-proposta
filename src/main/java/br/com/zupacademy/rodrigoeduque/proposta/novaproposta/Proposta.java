@@ -3,6 +3,7 @@ package br.com.zupacademy.rodrigoeduque.proposta.novaproposta;
 import br.com.zupacademy.rodrigoeduque.proposta.analisedeproposta.RetornoAnaliseRequest;
 import br.com.zupacademy.rodrigoeduque.proposta.associarcartao.NumeroDoCartaoRequest;
 import br.com.zupacademy.rodrigoeduque.proposta.cadastrobiometria.Biometria;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

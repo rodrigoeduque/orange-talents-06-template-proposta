@@ -2,6 +2,10 @@ package br.com.zupacademy.rodrigoeduque.proposta.novaproposta;
 
 import br.com.zupacademy.rodrigoeduque.proposta.configs.anotacoespersonalizadas.cpfoucnpj.CpfOuCnpj;
 import br.com.zupacademy.rodrigoeduque.proposta.configs.anotacoespersonalizadas.valorunico.ValorUnico;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -30,6 +34,11 @@ public class NovaPropostaRequest {
     @Positive
     private BigDecimal salario;
 
+    @Value("${password}")
+    private String passwordCrypt;
+    @Value("${key}")
+    private String keyCrypt;
+
 
     public NovaPropostaRequest(String documento, String email, String nome, String endereco, BigDecimal salario) {
         this.documento = documento;
@@ -50,7 +59,9 @@ public class NovaPropostaRequest {
                 '}';
     }
 
-    public Proposta toModel() {
-        return new Proposta(documento,email,nome,endereco,salario);
+    public Proposta toModel(String passwordCrypt, String keyCrypt) {
+        TextEncryptor textEncryptor = Encryptors.text(passwordCrypt, keyCrypt);
+        String docCrypt = textEncryptor.encrypt(documento);
+        return new Proposta(docCrypt,email,nome,endereco,salario);
     }
 }
